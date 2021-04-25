@@ -1,0 +1,12 @@
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### GRADLE ###
+.gradle/
+
+### mac OS ###
+.DS_Store
+.gradle/ 제거할 예정

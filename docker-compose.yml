@@ -1,0 +1,15 @@
+version: "2.2"
+services:
+#  mysql:
+#    image: database_image
+#    ports:
+#      - "5432:5432"
+  livestudyapp:
+    image: livestudyapp
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - DB_IP=host.docker.internal    #  localhost ip connect in docker container
+
+# excute command : docker-compose up

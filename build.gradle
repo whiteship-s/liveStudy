@@ -31,3 +31,16 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+
+jar {
+    manifest {
+        attributes  'Title': 'LiveStudy Application',
+                'Main-Class': 'whiteship.toyproject.livestduy.LivestudyApplication'
+    }
+    archiveName 'LiveStudyApp.jar'
+    dependsOn configurations.runtime
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    }
+}
