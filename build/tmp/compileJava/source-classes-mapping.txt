@@ -1,2 +1,0 @@
-whiteship/toyproject/livestduy/LivestduyApplication.java
- whiteship.toyproject.livestduy.LivestduyApplication
