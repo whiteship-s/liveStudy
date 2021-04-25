@@ -5,6 +5,9 @@
 - jdk : 11.0.9
 - build tool : gradle(v 6.8.3)
 - spring boot : 2.4.4
+- database : mariadb 
+- database(test) : h2
+
 ## 프로젝트 생성 과정
 ### Spring
 1. IDE에서 spring 프로젝트 생성
