@@ -5,11 +5,15 @@ services:
 #    ports:
 #      - "5432:5432"
   livestudyapp:
-    image: livestudyapp
+    image: sophysophy/livestudy:0.9
     ports:
-      - "8080:8080"
+      - "9091:9091"
     environment:
       - SPRING_PROFILES_ACTIVE=local
       - DB_IP=host.docker.internal    #  localhost ip connect in docker container
+  front-vuejs-app:
+    image: sophysophy/frontvuejsapp:0.9
+    ports:
+      - "8080:8080"
 
 # excute command : docker-compose up
