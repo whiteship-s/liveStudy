@@ -13,5 +13,4 @@ public class Users {
   private Long id;
   private String nickname;
   private String uri;
-  private String blogType;
 }
