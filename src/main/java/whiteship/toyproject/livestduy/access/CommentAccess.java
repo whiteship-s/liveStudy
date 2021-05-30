@@ -51,8 +51,8 @@ public class CommentAccess {
     for (GHReaction ghReaction : writeDto.getEmojis()) {
       writeDto.setCheckHeart(ghReaction.getContent() == ReactionContent.HEART);
     }
-    if (this.rex(body).getContent().contains("(whitehsip)")) {
-      String[] split = this.rex(body).getContent().split("whitehsip");
+    if (this.rex(body).getContent().contains("(whiteship)")) {
+      String[] split = this.rex(body).getContent().split("whiteship");
       writeDto.setUser(split[0].substring(1, split[0].length() - 1).strip());
       writeDto.setLeader(split[1].substring(1).strip());
     } else {
