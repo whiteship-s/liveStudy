@@ -3,17 +3,14 @@ package whiteship.toyproject.livestduy.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import whiteship.toyproject.livestduy.access.CommentWriteDto;
 
 @Entity
 @Setter
@@ -35,4 +32,16 @@ public class Comment {
   private StudyInfo studyInfo;
   private Date createAt;
   private Date updateAt;
+
+  public Comment(CommentWriteDto dto) {
+    this.nickname = dto.getId();
+    this.url = dto.getUrl();
+    this.leaderComment = dto.getLeader();
+    this.userComment = dto.getUser();
+    this.emojiNum = dto.getEmojiCount();
+    this.heartFlag = dto.isCheckHeart();
+    this.studyInfo = dto.getStudyInfo();
+    this.createAt = dto.getCreatedAt();
+    this.updateAt = dto.getUpdatedAt();
+  }
 }
