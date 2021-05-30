@@ -39,6 +39,7 @@ public class StudyInfo extends BaseTimeEntity {
     }
 
     public static StudyInfo createStudyInfo(GHIssue issue) throws IOException {
+        System.out.println(issue.getBody());
         return StudyInfo.builder()
             .title(issue.getTitle())
             .week(issue.getNumber())

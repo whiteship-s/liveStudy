@@ -35,7 +35,7 @@ import whiteship.toyproject.livestduy.model.Comment;
 public class Runner implements ApplicationRunner {
 
     //personal token need to secret
-    private static final String MY_PERSONAL_TOKEN = "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";
+    private static final String MY_PERSONAL_TOKEN = "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";
     private final StudyInfoRepository studyInfoRepository;
     private final CommentRepository commentRepository;
 

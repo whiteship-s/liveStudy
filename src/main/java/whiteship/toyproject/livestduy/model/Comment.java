@@ -2,6 +2,7 @@ package whiteship.toyproject.livestduy.model;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import antlr.StringUtils;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +44,9 @@ public class Comment extends BaseTimeEntity {
     private String leaderComment;
     @Column(length = 3000)
     private String userComment;
-    private Integer emojiNum;
+    private int emojiNum;
     @Convert(converter = BooleanToYNConverter.class)
-    private Boolean heartFlag;
+    private boolean heartFlag;
     @Enumerated(EnumType.STRING)
     private BlogType blogType;
     @ManyToOne
@@ -68,41 +69,52 @@ public class Comment extends BaseTimeEntity {
 
     public static Comment createComment(GHIssueComment comment, final StudyInfo studyInfo)
         throws IOException {
-        System.out.println("처음이다");
         String url = "";
+        StringBuffer urlBuffer = new StringBuffer();
         StringBuffer content = new StringBuffer();
         String leaderComment = "";
         String userComment = "";
-        Integer emojiNum = 0;
-        Boolean heartFlag = false;
+        int emojiNum = 0;
+        boolean heartFlag = false;
 
         String[] bodyArr = getBody(comment);
-        System.out.println(bodyArr.length);
+//
+//        for(int i = 0; i < bodyArr.length; i++){
+//            System.out.println(bodyArr[i]);
+//        }
 
         for (String body : bodyArr) {
-            System.out.println("body : " + body + " @@");
             Map<String, String> map = getUrl(body);
-            url = map.get("url");
             leaderComment = map.get("leaderComment");
-            if ("pass".equals(map.get("flag"))) {
-                break;
-            }
+            urlBuffer.append(map.get("url"));
+//            if ("pass".equals(map.get("flag"))) {
+//                continue;
+//            }
+
             content.append(body);
         }
+        url = urlBuffer.toString().replaceAll("null", "");
 
         String body = content.toString().strip();
         if (body.contains("(whiteship)")) {
-            Map<String, String> mapComment = getComment(body);
-            leaderComment = mapComment.get("leaderComment");
-            userComment = mapComment.get("userComment");
+            // System.out.println("if " + body);
+            userComment = body.substring(0, body.indexOf("(whiteship)"));
+            //  System.out.println("userComment " + userComment);
+//            Map<String, String> mapComment = getComment(body);
+//            leaderComment = mapComment.get("leaderComment");
+//            userComment = mapComment.get("userComment");
         } else {
+            // System.out.println("else : " + body);
+            // userComment  = body.substring(0, body.indexOf("whiteship)") - 7);
             userComment = body.strip();
         }
 
         BlogType blogType = getBlogType(url);
         Map<String, Object> emoji = getEmoji(comment);
-        emojiNum = (Integer) emoji.get("emojiNum");
-        heartFlag = (Boolean) emoji.get("heartFlag");
+        if(emoji.get("emojiNum") != null && emoji.get("heartFlag") != null){
+            emojiNum = (int) emoji.get("emojiNum");
+            heartFlag = (boolean) emoji.get("heartFlag");
+        }
 
         return Comment.builder()
             .nickname(comment.getUser().getLogin())
@@ -117,7 +129,6 @@ public class Comment extends BaseTimeEntity {
     }
 
     private static String[] getBody(GHIssueComment comment) {
-        System.out.println("body진짜 : " + comment.getBody());
         return comment.getBody().split("\r|(\r\n)+|\n|(\n\r)");
     }
 
@@ -132,7 +143,7 @@ public class Comment extends BaseTimeEntity {
             if (matcher.find()) {
                 url = matcher.group().strip();
                 map.put("url", url);
-                map.put("flag", "pass");
+                // map.put("flag", "pass");
                 return map;
                 //System.out.println(url.toString());
                 //String[] https = url.toString().split("https");
@@ -162,13 +173,18 @@ public class Comment extends BaseTimeEntity {
         Map<String, String> commentMap = new HashMap<>();
         String[] split = body.split("whitehsip");
         commentMap.put("userComment", split[0].substring(1, split[0].length() - 1).strip());
-        commentMap.put("leaderComment", split[1].substring(1).strip());
+        //commentMap.put("leaderComment", split[1].substring(1).strip());
         return commentMap;
     }
 
     private static Map<String, Object> getEmoji(final GHIssueComment comment) throws IOException {
         Map<String, Object> emojiMap = new HashMap<>();
         List<GHReaction> ghReactions = comment.listReactions().toList();
+
+        if(ghReactions.size() == 0){
+            return emojiMap;
+        }
+
         emojiMap.put("emojiNum", ghReactions.size());
         for (GHReaction ghReaction : ghReactions) {
             emojiMap.put("heartFlag", ghReaction.getContent() == ReactionContent.HEART);
