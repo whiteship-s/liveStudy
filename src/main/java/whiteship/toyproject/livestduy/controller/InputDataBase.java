@@ -1,6 +1,7 @@
 package whiteship.toyproject.livestduy.controller;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.kohsuke.github.GHIssueComment;
@@ -60,6 +61,5 @@ public class InputDataBase implements ApplicationRunner {
       }
       service.shutdown();
     }
-
   }
 }

@@ -6,11 +6,18 @@ import java.util.regex.Pattern;
 import org.kohsuke.github.GHIssueComment;
 import org.kohsuke.github.GHReaction;
 import org.kohsuke.github.ReactionContent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import whiteship.toyproject.livestduy.model.BlogType;
 import whiteship.toyproject.livestduy.model.StudyInfo;
+import whiteship.toyproject.livestduy.model.Uri;
+import whiteship.toyproject.livestduy.repository.UriRepository;
 
 @Component
 public class CommentAccess {
+
+  @Autowired
+  private UriRepository uriRepository;
 
   public CommentBodyDto rex(String[] body) {
     CommentBodyDto commentDto = new CommentBodyDto();
@@ -21,7 +28,7 @@ public class CommentAccess {
         Pattern p = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(s);
         if (m.find()) {
-          commentDto.setUrl(m.group().strip());
+          saveUri(m.group().strip());
         }
         continue;
       }
@@ -33,6 +40,12 @@ public class CommentAccess {
     }
     commentDto.setContent(content.toString());
     return commentDto;
+  }
+
+  private void saveUri(String url) {
+    UriDto uri = UriDto.builder().url(url).blogType(BlogType.find(url))
+        .build();
+    uriRepository.save(new Uri(uri));
   }
 
   public CommentWriteDto save(GHIssueComment comment, StudyInfo info)
