@@ -15,3 +15,62 @@ spring:
         fomat_sql: true
         use_sql_comments: true
 
+
+---
+#
+# DEV Setting
+###########################################
+spring:
+  datasource:
+    url: jdbc:h2:file:./h2_db;AUTO_SERVER=TRUE;DATABASE_TO_LOWER=TRUE;MODE=MYSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    platform: h2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        show_sql: true
+        fomat_sql: true
+        use_sql_comments: true
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+logging:
+  level:
+    root: info
+  config:
+    activate:
+      on-profile: dev
+
+
+---
+#
+# PRD Setting
+###########################################
+
+spring:
+  datasource:
+    platform: mariadb
+    url:
+    username: admin
+    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        show_sql: true
+        fomat_sql: true
+        use_sql_comments: true
+  config:
+    activate:
+      on-profile: prd
+
+

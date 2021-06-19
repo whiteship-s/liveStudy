@@ -7,6 +7,8 @@
 ### GRADLE ###
 .gradle/
 .build/
+build
+logs
 
 ### mac OS ###
 .DS_Store
