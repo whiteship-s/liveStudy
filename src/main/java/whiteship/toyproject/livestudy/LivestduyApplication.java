@@ -1,4 +1,4 @@
-package whiteship.toyproject.livestduy;
+package whiteship.toyproject.livestudy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
