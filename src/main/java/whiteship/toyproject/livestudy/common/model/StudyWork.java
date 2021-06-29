@@ -25,4 +25,5 @@ public class StudyWork {
   private Integer studyWorkOrder;
   private String studyWorkTitle;
   private String studyWorkContent;
+  private boolean status;
 }

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,9 +25,13 @@ public class StudyComment {
   @ManyToOne
   @JoinColumn(name = "REG_SEQ")
   private UserInfo userInfo;
+  @OneToOne
+  @JoinColumn(referencedColumnName = "STUDY_CODE")
+  private StudyInfo studyInfo;
   private LocalDateTime regDate;
   private String content;
   private boolean whiteshipFeedbackYn;
   private String feedbackContent;
   private LocalDateTime feedbackRegDate;
+  private boolean status;
 }

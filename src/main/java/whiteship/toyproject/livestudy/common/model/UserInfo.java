@@ -21,5 +21,5 @@ public class UserInfo {
   private String githubId;
   private String githubNickname;
   private String githubProfileImg;
-
+  private boolean status;
 }
