@@ -1,6 +1,7 @@
 package whiteship.toyproject.livestudy.common.model;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class StudyComment {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "COMMENT_SEQ")
   private Long commentSeq;
   private String studyCode;
   @ManyToOne
