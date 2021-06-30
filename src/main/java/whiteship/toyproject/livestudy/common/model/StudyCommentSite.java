@@ -16,11 +16,12 @@ import lombok.Setter;
 @Table(name = "T_STUDY_COMMENT_SITE")
 public class StudyCommentSite {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long siteSeq;
+
   private Integer siteOrder;
   @ManyToOne
-  @JoinColumn(name = "COMMENT_SEQ")
+  @JoinColumn(name = "COMMENT_SEQ", referencedColumnName = "COMMENT_SEQ")
   private StudyComment studyComment;
   private String siteCode;
   private String site;

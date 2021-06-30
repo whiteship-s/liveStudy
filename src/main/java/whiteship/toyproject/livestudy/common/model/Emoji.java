@@ -19,9 +19,9 @@ public class Emoji {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long emojiIdx;
+  private Long emojiSeq;
   @ManyToOne
-  @JoinColumn(name = "COMMENT_SEQ")
+  @JoinColumn(name = "COMMENT_SEQ", referencedColumnName = "COMMENT_SEQ")
   private StudyComment studyComment;
 
   @OneToOne
