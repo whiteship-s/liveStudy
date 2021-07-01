@@ -12,3 +12,8 @@ logs
 
 ### mac OS ###
 .DS_Store
+
+
+
+### db ###
+*.db
