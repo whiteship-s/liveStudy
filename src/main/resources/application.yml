@@ -20,6 +20,8 @@ spring:
 logging:
   level:
     root: info
+github:
+  token: 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
 
 ---
 #
