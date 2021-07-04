@@ -29,6 +29,7 @@ spring:
     password:
     driver-class-name: org.h2.Driver
     initialization-mode: always
+    platform: h2
   jpa:
     generate-ddl: true
     hibernate:
