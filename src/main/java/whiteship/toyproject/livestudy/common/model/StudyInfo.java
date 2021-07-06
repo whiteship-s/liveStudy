@@ -1,6 +1,7 @@
 package whiteship.toyproject.livestudy.common.model;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,10 +24,8 @@ public class StudyInfo {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long studySeq;
-
-  @OneToOne
-  @JoinColumn(referencedColumnName = "CODE")
-  private CommonCode study;
+  @Column(name = "STUDY_CODE")
+  private String studyCode;
   private String studyGoal;
   private LocalDateTime studyDeadline;
   private boolean studyWorkYn;
