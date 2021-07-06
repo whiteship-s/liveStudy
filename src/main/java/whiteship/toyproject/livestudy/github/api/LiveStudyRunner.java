@@ -43,12 +43,15 @@ public class LiveStudyRunner implements ApplicationRunner {
 
   private void loading(GHIssue ghIssue) {
     try {
-      LOGGER.info("save..." + githubApi.transformToStudyInfo(ghIssue));
-      StudyInfo studyInfo = studyInfoRepository.save(githubApi.transformToStudyInfo(ghIssue));
+//      LOGGER.info("save..." + githubApi.transformToStudyInfo(ghIssue));
+      if(githubApi.validataCheck(ghIssue)) {
+        StudyInfo studyInfo = studyInfoRepository.save(githubApi.transformToStudyInfo(ghIssue));
+//
+//      ghIssue.getComments()
+//              .forEach(comment ->
+//                      commentRepository.save(githubApi.transformToCommentInfo(comment, studyInfo)));
+      }
 
-      ghIssue.getComments()
-              .forEach(comment ->
-                      commentRepository.save(githubApi.transformToCommentInfo(comment, studyInfo)));
 
 
     } catch (IOException e) {

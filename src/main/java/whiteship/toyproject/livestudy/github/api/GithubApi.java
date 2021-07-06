@@ -4,10 +4,12 @@ package whiteship.toyproject.livestudy.github.api;
 import org.kohsuke.github.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import whiteship.toyproject.livestudy.common.code.Study;
 import whiteship.toyproject.livestudy.common.model.StudyComment;
 import whiteship.toyproject.livestudy.common.model.StudyInfo;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import static whiteship.toyproject.livestudy.common.library.DateFormat.asLocalDateTime;
@@ -25,7 +27,6 @@ public class GithubApi {
 
   public List<GHIssue> extractStudyInfoInGithub() throws IOException {
     return getGhIssuesList();
-
   }
 
   public List<GHIssueComment> extractCommentInGithub(GHIssue ghIssue) throws IOException {
@@ -34,7 +35,7 @@ public class GithubApi {
 
 
   private List<GHIssue> getGhIssuesList() throws IOException {
-    return getGhRepository().getIssues(GHIssueState.ALL).subList(7,11);
+    return getGhRepository().getIssues(GHIssueState.ALL);
   }
 
   private GHRepository getGhRepository() throws IOException {
@@ -45,12 +46,15 @@ public class GithubApi {
     return new GitHubBuilder().withOAuthToken(ACCESS_TOKEN_FOR_GITHUB).build();
   }
   public StudyInfo transformToStudyInfo(GHIssue ghIssue) throws IOException {
+
+    System.out.println("ghIssue = " + ghIssue);
+    System.out.println(ghIssue.getBody().split("# [가-힣\\s()]+")[1].strip());
     return StudyInfo.builder()
-            .week(ghIssue.getNumber() + "")
-            .title(ghIssue.getTitle())
-            .learn(ghIssue.getBody().split("# [가-힣]+")[1].strip())
-            .goal(ghIssue.getBody().split("# [가-힣\\s()]+")[2].strip())
-            .participation(ghIssue.getCommentsCount())
+            .studyCode(Study.findByValue(ghIssue.getNumber() + ""))
+            .studyTopic((ghIssue.getTitle()))
+            .studyGoal(ghIssue.getBody().split("# [가-힣\\s()]+")[1].strip())
+            .studyDeadline(asLocalDateTime(Calendar.getInstance().getTime()))
+            .studyStatus(ghIssue.getState().name())
             .createdAt(asLocalDateTime(ghIssue.getCreatedAt()))
             .updatedAt(asLocalDateTime(ghIssue.getUpdatedAt()))
             .build();
@@ -65,4 +69,8 @@ public class GithubApi {
     return new StudyComment();
   }
 
+  public boolean validataCheck(GHIssue ghIssue) throws IOException {
+    System.out.println(ghIssue);
+    return ghIssue.getUser().getLogin().equals("whiteship") || ghIssue.getBody() == null;
+  }
 }

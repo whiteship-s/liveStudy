@@ -27,6 +27,24 @@ public class StudyInfo {
   @Column(name = "STUDY_CODE")
   private String studyCode;
   private String studyGoal;
+  private String studyTopic;
   private LocalDateTime studyDeadline;
   private boolean studyWorkYn;
+
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
+
+  private String studyStatus;
+
+  public StudyInfo(Long studySeq, String studyCode, String studyGoal, String studyTopic, LocalDateTime studyDeadline, boolean studyWorkYn, LocalDateTime createdAt, LocalDateTime updatedAt, String studyStatus) {
+    this.studySeq = studySeq;
+    this.studyCode = studyCode;
+    this.studyGoal = studyGoal;
+    this.studyTopic = studyTopic;
+    this.studyDeadline = studyDeadline;
+    this.studyWorkYn = studyWorkYn;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.studyStatus = studyStatus;
+  }
 }
