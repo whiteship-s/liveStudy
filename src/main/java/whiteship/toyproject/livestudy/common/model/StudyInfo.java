@@ -1,19 +1,22 @@
 package whiteship.toyproject.livestudy.common.model;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.kohsuke.github.GHIssue;
+import whiteship.toyproject.livestudy.common.code.Study;
+
+import static whiteship.toyproject.livestudy.common.library.DateFormat.asLocalDateTime;
 
 @Setter @Getter @Builder
 @NoArgsConstructor
@@ -26,6 +29,7 @@ public class StudyInfo {
   private Long studySeq;
   @Column(name = "STUDY_CODE")
   private String studyCode;
+  @Column( length = 100000 )
   private String studyGoal;
   private String studyTopic;
   private LocalDateTime studyDeadline;
@@ -46,5 +50,17 @@ public class StudyInfo {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.studyStatus = studyStatus;
+  }
+
+  public static StudyInfo transformToStudyInfo(GHIssue ghIssue) throws IOException {
+    return StudyInfo.builder()
+            .studyCode(Study.findByValue(ghIssue.getNumber() + ""))
+            .studyTopic((ghIssue.getTitle()))
+            .studyGoal(ghIssue.getBody())
+            .studyDeadline(asLocalDateTime(ghIssue.getClosedAt()))
+            .studyStatus(ghIssue.getState().name())
+            .createdAt(asLocalDateTime(ghIssue.getCreatedAt()))
+            .updatedAt(asLocalDateTime(ghIssue.getUpdatedAt()))
+            .build();
   }
 }

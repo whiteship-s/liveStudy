@@ -1,17 +1,16 @@
 package whiteship.toyproject.livestudy.common.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.*;
 
-@Setter
-@Getter
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.util.Arrays;
+
+
+@Setter @Getter @Builder
+@NoArgsConstructor
 @Entity
 @Table(name = "T_STUDY_WORK")
 public class StudyWork {
@@ -24,6 +23,27 @@ public class StudyWork {
   private StudyInfo studyInfo;
   private Integer studyWorkOrder;
   private String studyWorkTitle;
+  @Column( length = 100000 )
   private String studyWorkContent;
   private boolean status;
+
+  public StudyWork(Long studyWorkSeq, StudyInfo studyInfo, Integer studyWorkOrder, String studyWorkTitle, String studyWorkContent, boolean status) {
+    this.studyWorkSeq = studyWorkSeq;
+    this.studyInfo = studyInfo;
+    this.studyWorkOrder = studyWorkOrder;
+    this.studyWorkTitle = studyWorkTitle;
+    this.studyWorkContent = studyWorkContent;
+    this.status = status;
+  }
+
+  public static StudyWork transformToStudyWork(StudyInfo studyInfo, String studyWorkBody, int studyWorkOrder, int startIndex) {
+    String[] studyWorkList = studyWorkBody.split("\\r\\n");
+    return StudyWork.builder()
+            .studyInfo(studyInfo)
+            .studyWorkOrder(studyWorkOrder)
+            .studyWorkTitle(studyWorkList[startIndex])
+            .studyWorkContent(String.join("\r\n", Arrays.asList(studyWorkList).subList(startIndex+1, studyWorkList.length)))
+            .status(true)
+            .build();
+  }
 }

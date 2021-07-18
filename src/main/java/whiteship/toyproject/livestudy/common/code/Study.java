@@ -18,7 +18,7 @@ public enum Study {
     STUDY_110015("15"),
     ;
 
-    private String value;
+    private final String value;
     private Study(String value) {
         this.value = value;
     }

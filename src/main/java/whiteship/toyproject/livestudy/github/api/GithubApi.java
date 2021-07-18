@@ -4,16 +4,11 @@ package whiteship.toyproject.livestudy.github.api;
 import org.kohsuke.github.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import whiteship.toyproject.livestudy.common.code.Study;
 import whiteship.toyproject.livestudy.common.model.StudyComment;
 import whiteship.toyproject.livestudy.common.model.StudyInfo;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
-
-import static whiteship.toyproject.livestudy.common.library.DateFormat.asLocalDateTime;
-
+import java.util.*;
 
 @Component
 public class GithubApi {
@@ -45,32 +40,18 @@ public class GithubApi {
   private GitHub getGithub() throws IOException {
     return new GitHubBuilder().withOAuthToken(ACCESS_TOKEN_FOR_GITHUB).build();
   }
-  public StudyInfo transformToStudyInfo(GHIssue ghIssue) throws IOException {
 
-    System.out.println("ghIssue = " + ghIssue);
-    System.out.println(ghIssue.getBody().split("# [가-힣\\s()]+")[1].strip());
-    return StudyInfo.builder()
-            .studyCode(Study.findByValue(ghIssue.getNumber() + ""))
-            .studyTopic((ghIssue.getTitle()))
-            .studyGoal(ghIssue.getBody().split("# [가-힣\\s()]+")[1].strip())
-            .studyDeadline(asLocalDateTime(Calendar.getInstance().getTime()))
-            .studyStatus(ghIssue.getState().name())
-            .createdAt(asLocalDateTime(ghIssue.getCreatedAt()))
-            .updatedAt(asLocalDateTime(ghIssue.getUpdatedAt()))
-            .build();
+
+  public boolean validCheckIsStudy(GHIssue ghIssue) throws IOException {
+    return ghIssue.getLabels().stream().anyMatch(ghLabel -> ghLabel.getName().equals("과제"));
   }
 
-  public StudyComment transformToCommentInfo(GHIssueComment ghIssueComment, StudyInfo studyInfo) {
-//        return Comment.builder()
-//                .
-//                .studyInfo(studyInfo)
-//                .build();
-
-    return new StudyComment();
+  public String[] validCheckHaveStudyWork(GHIssue ghIssue) {
+    return ghIssue.getBody().split("# 과제");
   }
 
-  public boolean validataCheck(GHIssue ghIssue) throws IOException {
-    System.out.println(ghIssue);
-    return ghIssue.getUser().getLogin().equals("whiteship") || ghIssue.getBody() == null;
+  public String[] splitStudyWorkList(GHIssue ghIssue) {
+    return ghIssue.getBody().split("# 과제 [0-9].");
   }
+
 }
