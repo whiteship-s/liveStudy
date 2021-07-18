@@ -62,7 +62,7 @@ public class StudyComment {
     String content = comment.getBody();
 
     if(comment.getBody().contains("(whiteship)")) {
-      String[] getFeedBack = comment.getBody().split("(whiteship)");
+      String[] getFeedBack = comment.getBody().split("\\(whiteship\\)");
       whiteshipFeedbackYn = true;
       content = getFeedBack[0];
       feedbackContent = getFeedBack[1];
