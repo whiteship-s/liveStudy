@@ -23,7 +23,7 @@ public class StudyWork {
   private StudyInfo studyInfo;
   private Integer studyWorkOrder;
   private String studyWorkTitle;
-  @Column( length = 100000 )
+  @Column(columnDefinition = "TEXT")
   private String studyWorkContent;
   private boolean status;
 

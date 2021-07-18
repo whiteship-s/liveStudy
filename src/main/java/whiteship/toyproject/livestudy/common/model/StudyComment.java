@@ -31,10 +31,10 @@ public class StudyComment {
   private StudyInfo studyInfo;
   private LocalDateTime regDate;
   private LocalDateTime modDate;
-  @Column( length = 100000 )
+  @Column(columnDefinition = "TEXT")
   private String content;
   private boolean whiteshipFeedbackYn;
-  @Column( length = 100000 )
+  @Column(columnDefinition = "TEXT")
   private String feedbackContent;
   private LocalDateTime feedbackRegDate;
   private boolean status;

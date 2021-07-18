@@ -29,7 +29,7 @@ public class StudyInfo {
   private Long studySeq;
   @Column(name = "STUDY_CODE")
   private String studyCode;
-  @Column( length = 100000 )
+  @Column(columnDefinition = "TEXT")
   private String studyGoal;
   private String studyTopic;
   private LocalDateTime studyDeadline;

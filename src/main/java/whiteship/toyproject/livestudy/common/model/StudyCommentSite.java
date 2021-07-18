@@ -28,7 +28,7 @@ public class StudyCommentSite {
   @JoinColumn(name = "COMMENT_SEQ", referencedColumnName = "COMMENT_SEQ")
   private StudyComment studyComment;
   private String siteCode;
-  @Column( length = 100000 )
+  @Column(columnDefinition = "TEXT")
   private String site;
 
   public StudyCommentSite(Long siteSeq, Integer siteOrder, StudyComment studyComment, String siteCode, String site) {
