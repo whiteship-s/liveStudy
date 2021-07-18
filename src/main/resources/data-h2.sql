@@ -33,6 +33,6 @@ VALUES
  ('SITE_200005', 'SITE','VELOG','벨로그',20,'yonghun',now(), 'yonghun',now(), null ,true),
 
  ('EMOJI_300001', 'EMOJI','HEART','하트',21,'yonghun',now(), 'yonghun',now(), null ,true),
- ('EMOJI_300002', 'EMOJI','LIKE','좋아요',22,'yonghun',now(), 'yonghun',now(), null ,true);
+ ('EMOJI_300002', 'EMOJI','PLUS_ONE','좋아요',22,'yonghun',now(), 'yonghun',now(), null ,true);
 
 
