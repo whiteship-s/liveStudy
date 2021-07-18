@@ -21,7 +21,7 @@ logging:
   level:
     root: info
 github:
-  token:
+  token: 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
 
 ---
 #
