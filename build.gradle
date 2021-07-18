@@ -37,7 +37,7 @@ test {
 jar {
     manifest {
         attributes  'Title': 'LiveStudy Application',
-                'Main-Class': 'whiteship.toyproject.livestduy.LivestudyApplication'
+                'Main-Class': 'whiteship.toyproject.livestudy.LivestudyApplication'
     }
     archiveName 'LiveStudyApp.jar'
     dependsOn configurations.runtime
