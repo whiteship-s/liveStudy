@@ -44,6 +44,7 @@ public class LiveStudyRunner implements ApplicationRunner {
   public void run(ApplicationArguments args) throws Exception {
 
     LOGGER.info("============== START ISSUES ETL ==============");
+    long start = System.currentTimeMillis();
 
 //        extract issues list
     List<GHIssue> ghIssues = githubApi.extractStudyInfoInGithub();
@@ -53,7 +54,7 @@ public class LiveStudyRunner implements ApplicationRunner {
 
 
     LOGGER.info("============== END ISSUES ETL ==============");
-
+    System.out.println("elsaped " + (System.currentTimeMillis() - start) / 1000 + " seconds.");
   }
 
   private void loading(GHIssue ghIssue) {
@@ -79,6 +80,7 @@ public class LiveStudyRunner implements ApplicationRunner {
 
   private void extractingCommentRelatedInfo(GHIssue ghIssue, StudyInfo studyInfo) throws IOException {
     ghIssue.getComments()
+            .parallelStream()
             .forEach(comment -> {
               try {
 
