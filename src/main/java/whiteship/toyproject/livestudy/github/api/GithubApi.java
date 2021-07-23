@@ -24,11 +24,6 @@ public class GithubApi {
     return getGhIssuesList();
   }
 
-  public List<GHIssueComment> extractCommentInGithub(GHIssue ghIssue) throws IOException {
-    return ghIssue.getComments();
-  }
-
-
   private List<GHIssue> getGhIssuesList() throws IOException {
     return getGhRepository().getIssues(GHIssueState.ALL);
   }
