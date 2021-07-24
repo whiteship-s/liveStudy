@@ -4,7 +4,6 @@ import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueComment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
@@ -19,32 +18,28 @@ public class LiveStudyRunner implements ApplicationRunner {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LiveStudyRunner.class);
 
-  @Autowired
-  GithubApi githubApi;
+  private final GithubApi githubApi;
+  private final StudyInfoRepository studyInfoRepository;
+  private final CommentRepository commentRepository;
+  private final StudyWorkRepository studyWorkRepository;
+  private final UserInfoRepository userInfoRepository;
+  private final StudyCommentSiteRepository studyCommentSiteRepository;
+  private final EmojiRepository emojiRepository;
 
-  @Autowired
-  StudyInfoRepository studyInfoRepository;
-
-  @Autowired
-  CommentRepository commentRepository;
-
-  @Autowired
-  StudyWorkRepository studyWorkRepository;
-
-  @Autowired
-  UserInfoRepository userInfoRepository;
-
-  @Autowired
-  StudyCommentSiteRepository studyCommentSiteRepository;
-
-  @Autowired
-  EmojiRepository emojiRepository;
+  public LiveStudyRunner(GithubApi githubApi, StudyInfoRepository studyInfoRepository, CommentRepository commentRepository, StudyWorkRepository studyWorkRepository, UserInfoRepository userInfoRepository, StudyCommentSiteRepository studyCommentSiteRepository, EmojiRepository emojiRepository) {
+    this.githubApi = githubApi;
+    this.studyInfoRepository = studyInfoRepository;
+    this.commentRepository = commentRepository;
+    this.studyWorkRepository = studyWorkRepository;
+    this.userInfoRepository = userInfoRepository;
+    this.studyCommentSiteRepository = studyCommentSiteRepository;
+    this.emojiRepository = emojiRepository;
+  }
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
 
     LOGGER.info("============== START ISSUES ETL ==============");
-    long start = System.currentTimeMillis();
 
 //        extract issues list
     List<GHIssue> ghIssues = githubApi.extractStudyInfoInGithub();
@@ -54,7 +49,6 @@ public class LiveStudyRunner implements ApplicationRunner {
 
 
     LOGGER.info("============== END ISSUES ETL ==============");
-    System.out.println("elsaped " + (System.currentTimeMillis() - start) / 1000 + " seconds.");
   }
 
   private void loading(GHIssue ghIssue) {
@@ -122,13 +116,13 @@ public class LiveStudyRunner implements ApplicationRunner {
 
   private void extractingStudyWork(GHIssue ghIssue, StudyInfo studyInfo) {
     //      extracting studywork list
-    String[] worklist = githubApi.validCheckHaveStudyWork(ghIssue);
-    if(worklist.length == 2) {
-      studyWorkRepository.save(StudyWork.transformToStudyWork(studyInfo,  worklist[1], 1, 1));
-    } else if (worklist.length  > 2) {
-       worklist = githubApi.splitStudyWorkList(ghIssue);
-      for (int i = 1; i < worklist.length; i++) {
-        studyWorkRepository.save(StudyWork.transformToStudyWork(studyInfo, worklist[i], i, 0));
+    String[] works = githubApi.validCheckHaveStudyWork(ghIssue);
+    if(works.length == 2) {
+      studyWorkRepository.save(StudyWork.transformToStudyWork(studyInfo,  works[1], 1, 1));
+    } else if (works.length  > 2) {
+       works = githubApi.splitStudyWorkList(ghIssue);
+      for (int i = 1; i < works.length; i++) {
+        studyWorkRepository.save(StudyWork.transformToStudyWork(studyInfo, works[i], i, 0));
       }
     }
   }
