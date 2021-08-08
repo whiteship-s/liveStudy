@@ -1,5 +1,6 @@
 package whiteship.toyproject.livestudy.common.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 import lombok.Builder;
@@ -21,11 +22,12 @@ import java.util.regex.Pattern;
 public class StudyCommentSite {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "SITE_SEQ")
   private Long siteSeq;
 
   private Integer siteOrder;
-  @ManyToOne
-  @JoinColumn(name = "COMMENT_SEQ", referencedColumnName = "COMMENT_SEQ")
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "COMMENT_SEQ")
   private StudyComment studyComment;
   private String siteCode;
   @Column(columnDefinition = "TEXT")

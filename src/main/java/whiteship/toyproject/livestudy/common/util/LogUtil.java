@@ -1,9 +1,9 @@
 package whiteship.toyproject.livestudy.common.util;
 
 import java.lang.invoke.MethodHandles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
 
 public final class LogUtil {
 

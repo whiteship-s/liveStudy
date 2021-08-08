@@ -1,18 +1,28 @@
 package whiteship.toyproject.livestudy.common.model;
 
+import static whiteship.toyproject.livestudy.common.library.DateFormat.asLocalDateTime;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
-import javax.persistence.*;
-
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.kohsuke.github.GHIssueComment;
 
-import static whiteship.toyproject.livestudy.common.library.DateFormat.asLocalDateTime;
-
-@Setter @Getter @Builder
+@Setter
+@Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "T_STUDY_COMMENT")
@@ -26,13 +36,17 @@ public class StudyComment {
   @ManyToOne
   @JoinColumn(name = "GITHUB_ID")
   private UserInfo userInfo;
-  @OneToOne
-  @JoinColumn(referencedColumnName = "STUDY_CODE")
-  private StudyInfo studyInfo;
+
   private LocalDateTime regDate;
   private LocalDateTime modDate;
   @Column(columnDefinition = "TEXT")
   private String content;
+
+  @OneToMany(mappedBy = "studyComment")
+  private List<StudyCommentSite> commentSites = new ArrayList<>();
+  @OneToMany(mappedBy = "studyComment")
+  private List<Emoji> emojis = new ArrayList<>();
+
   private boolean whiteshipFeedbackYn;
   @Column(columnDefinition = "TEXT")
   private String feedbackContent;
@@ -40,11 +54,13 @@ public class StudyComment {
   private boolean status;
 
 
-  public StudyComment(Long commentSeq, String studyCode, UserInfo userInfo, StudyInfo studyInfo, LocalDateTime regDate, LocalDateTime modDate, String content, boolean whiteshipFeedbackYn, String feedbackContent, LocalDateTime feedbackRegDate, boolean status) {
+  @Builder
+  public StudyComment(Long commentSeq, String studyCode, UserInfo userInfo, LocalDateTime regDate,
+      LocalDateTime modDate, String content, boolean whiteshipFeedbackYn, String feedbackContent,
+      LocalDateTime feedbackRegDate, boolean status) {
     this.commentSeq = commentSeq;
     this.studyCode = studyCode;
     this.userInfo = userInfo;
-    this.studyInfo = studyInfo;
     this.regDate = regDate;
     this.modDate = modDate;
     this.content = content;
@@ -54,14 +70,15 @@ public class StudyComment {
     this.status = status;
   }
 
-  public static StudyComment transformToStudyComment(GHIssueComment comment, StudyInfo studyInfo, UserInfo userInfo) throws IOException {
+  public static StudyComment transformToStudyComment(GHIssueComment comment, StudyInfo studyInfo,
+      UserInfo userInfo) throws IOException {
 //    feedback Yn
     boolean whiteshipFeedbackYn = false;
     String feedbackContent = null;
     LocalDateTime feedbackRegDate = null;
     String content = comment.getBody();
 
-    if(comment.getBody().contains("(whiteship)")) {
+    if (comment.getBody().contains("(whiteship)")) {
       String[] getFeedBack = comment.getBody().split("\\(whiteship\\)");
       whiteshipFeedbackYn = true;
       content = getFeedBack[0];
@@ -69,19 +86,17 @@ public class StudyComment {
       feedbackRegDate = asLocalDateTime(comment.getUpdatedAt());
     }
 
-
     return StudyComment.builder()
-            .studyCode(studyInfo.getStudyCode())
-            .userInfo(userInfo)
-            .studyInfo(studyInfo)
-            .regDate(asLocalDateTime(comment.getCreatedAt()))
-            .modDate(asLocalDateTime(comment.getUpdatedAt()))
-            .content(content)
-            .whiteshipFeedbackYn(whiteshipFeedbackYn)
-            .feedbackContent(feedbackContent)
-            .feedbackRegDate(feedbackRegDate)
-            .status(true)
-            .build();
+        .studyCode(studyInfo.getStudyCode())
+        .userInfo(userInfo)
+        .regDate(asLocalDateTime(comment.getCreatedAt()))
+        .modDate(asLocalDateTime(comment.getUpdatedAt()))
+        .content(content)
+        .whiteshipFeedbackYn(whiteshipFeedbackYn)
+        .feedbackContent(feedbackContent)
+        .feedbackRegDate(feedbackRegDate)
+        .status(true)
+        .build();
   }
 
 }

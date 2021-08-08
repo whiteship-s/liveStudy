@@ -2,11 +2,13 @@ package whiteship.toyproject.livestudy.common.model;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Builder;
@@ -54,7 +56,7 @@ public class StudyInfo {
 
   public static StudyInfo transformToStudyInfo(GHIssue ghIssue) throws IOException {
     return StudyInfo.builder()
-            .studyCode(Study.findByValue(ghIssue.getNumber() + ""))
+            .studyCode(Study.findByValue(ghIssue.getNumber()))
             .studyTopic((ghIssue.getTitle()))
             .studyGoal(ghIssue.getBody())
             .studyDeadline(asLocalDateTime(ghIssue.getClosedAt()))
