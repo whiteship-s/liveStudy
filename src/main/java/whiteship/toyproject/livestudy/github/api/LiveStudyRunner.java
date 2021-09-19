@@ -13,8 +13,7 @@ import whiteship.toyproject.livestudy.common.repository.*;
 import java.io.IOException;
 import java.util.List;
 
-@Configuration
-public class LiveStudyRunner implements ApplicationRunner {
+public class LiveStudyRunner  {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LiveStudyRunner.class);
 
@@ -36,7 +35,6 @@ public class LiveStudyRunner implements ApplicationRunner {
     this.emojiRepository = emojiRepository;
   }
 
-  @Override
   public void run(ApplicationArguments args) throws Exception {
 
     LOGGER.info("============== START ISSUES ETL ==============");
