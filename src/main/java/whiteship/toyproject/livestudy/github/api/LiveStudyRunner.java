@@ -7,13 +7,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import whiteship.toyproject.livestudy.common.model.*;
 import whiteship.toyproject.livestudy.common.repository.*;
 
 import java.io.IOException;
 import java.util.List;
 
-public class LiveStudyRunner  {
+//@Component
+public class LiveStudyRunner { //  implements ApplicationRunner{
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LiveStudyRunner.class);
 
