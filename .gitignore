@@ -17,3 +17,6 @@ logs
 
 ### db ###
 *.db
+
+### security ###
+**/**/application-oauth.yml
