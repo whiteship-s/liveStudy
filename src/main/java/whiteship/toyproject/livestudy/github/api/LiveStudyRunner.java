@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-public class LiveStudyRunner { //  implements ApplicationRunner{
+public class LiveStudyRunner { // implements ApplicationRunner{
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LiveStudyRunner.class);
 

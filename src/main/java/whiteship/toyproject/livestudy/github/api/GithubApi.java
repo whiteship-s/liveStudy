@@ -25,7 +25,7 @@ public class GithubApi {
   }
 
   private List<GHIssue> getGhIssuesList() throws IOException {
-//    return getGhRepository().getIssues(GHIssueState.ALL).subList(0, 7);
+//    return getGhRepository().getIssues(GHIssueState.ALL).subList(0, 9);
     return getGhRepository().getIssues(GHIssueState.ALL);
   }
 

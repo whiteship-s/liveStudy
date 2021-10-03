@@ -19,6 +19,7 @@ spring:
       enabled: true
   profiles:
     include: oauth
+    active: prd
 logging:
   level:
     root: info
